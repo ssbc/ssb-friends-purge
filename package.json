@@ -1,0 +1,52 @@
+{
+  "name": "ssb-friends-purge",
+  "version": "1.0.0",
+  "description": "SSB plugin to automatically delete blocked feeds",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ssb-ngi-pointer/ssb-friends-purge.git"
+  },
+  "types": "types.ts",
+  "main": "lib/index.js",
+  "files": [
+    "lib/*.js",
+    "lib/*.d.ts",
+    "LICENSES/*"
+  ],
+  "author": "Andre Staltz <contact@staltz.com>",
+  "license": "LGPL-3.0",
+  "keywords": [
+    "ssb"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "dependencies": {
+    "debug": "^4.3.4",
+    "pull-stream": "^3.6.2",
+    "ssb-typescript": "^2.8.0"
+  },
+  "peerDependencies": {
+    "ssb-db2": ">=4.2.0",
+    "ssb-friends": ">=5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.39",
+    "c8": "7.12.0",
+    "rimraf": "^3.0.2",
+    "secret-stack": "6.4.0",
+    "ssb-caps": "^1.1.0",
+    "ssb-db2": "^5.2.0",
+    "ssb-friends": "^5.1.6",
+    "ssb-keys": "8.4.1",
+    "tap-arc": "^0.3.5",
+    "tape": "^5.5.3",
+    "typescript": "~4.7.4"
+  },
+  "scripts": {
+    "compile": "tsc",
+    "tape": "tape test/index.js | tap-arc --bail",
+    "test": "npm run compile && npm run tape",
+    "coverage": "c8 --reporter=lcov npm run test"
+  }
+}
