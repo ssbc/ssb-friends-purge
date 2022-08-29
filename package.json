@@ -1,6 +1,6 @@
 {
   "name": "ssb-friends-purge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "SSB plugin to automatically delete blocked feeds",
   "repository": {
     "type": "git",
