@@ -21,7 +21,16 @@ export = {
   init: function init(ssb: any) {
     const queue = [] as Array<FeedId>;
     let isDeleting = false;
+    let wantsToStart = false;
     let sink: {abort: CallableFunction} | null = null;
+
+    ssb.db.getIndexingActive()((active: number) => {
+      if (active > 0) {
+        pause();
+      } else {
+        if (wantsToStart) resume();
+      }
+    });
 
     function deleteNext() {
       isDeleting = true;
@@ -42,7 +51,7 @@ export = {
       });
     }
 
-    function start() {
+    function resume() {
       pull(
         ssb.friends.hopStream({old: true, live: true}),
         (sink = pull.drain((hops: Record<FeedId, number>) => {
@@ -62,7 +71,7 @@ export = {
       );
     }
 
-    function stop() {
+    function pause() {
       if (sink) {
         sink.abort();
         sink = null;
@@ -70,8 +79,16 @@ export = {
     }
 
     return {
-      start,
-      stop,
+      start() {
+        wantsToStart = true;
+        if (ssb.db.getIndexingActive().value > 0) return;
+        else resume();
+      },
+
+      stop() {
+        wantsToStart = false;
+        pause();
+      },
     };
   },
 };
